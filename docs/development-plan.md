@@ -39,7 +39,7 @@ Small exact acceleration may be promoted later only with a concrete profile and 
 
 ## Dependencies and blockers
 
-**The requested model-free M1 storage gate passed; M2 may begin when authorized.** Checkpoint download/completeness was not inspected in M1 and is not a storage-experiment dependency. M2 must apply the entry gate below; this note does not assert that files are ready.
+**M1 passed; M2 was authorized but is blocked at checkpoint admission.** The required up1 manifest, tokenizer/hash metadata, and most main K4 payloads are missing. See the [M2 preflight result](m2-status.md). M2 is not complete and M3 must not begin. The M1 storage/build decision remains unchanged.
 
 **M2 entry gate:** confirm the M1-selected MLX build and native availability/fallback decisions. Inventory the completed files required by the main up1 profile: manifest, K4 expert payloads and index/side data for layers 3–77, dense/vocabulary records, and tokenizer/config/template/generation metadata. Validate manifest name/selection, required file completeness, published sizes/hashes, and consistent weight-set identity against the publisher's set-ID definition. The inspected metadata names set ID `2011c0cedde962d19fc43e74c1d409279e398d40d27a6fdb4bcb7b49ea2ea6fb`; do not treat that copied string or directory name as validation. Reject incomplete or mixed sets before loading; a deliberately different publisher revision requires an explicit identity update. Alternate K2/K3 payloads and optional MTP files are not prerequisites for main-model runs; use published per-file checks for the selected subset without claiming validation of undownloaded files.
 

@@ -4,7 +4,7 @@ Building toward a focused **GLM-5.3 + EXLR8 `up1` runtime for Apple Silicon**, i
 
 The primary goal is reliable resident, growing agent sessions—not another general-purpose MLX-LM fork. The first major success is ordinary generation with stable cache ownership, no full-cache relocation, bounded scratch/graph lifetimes, and no progressive stall or abandoned-memory growth.
 
-**Status: bounded M1 storage experiment complete; no runtime implementation exists.** Private evaluated MLX tails passed; MLX 0.32.3 is selected. See the [M1 decision and reproduction instructions](docs/m1-storage-decision.md). M2 has not started.
+**Status: M1 complete; M2 blocked at checkpoint admission. No runtime implementation exists.** The checkpoint download is incomplete; see the [M2 inventory/blocker](docs/m2-status.md) and CPU-only preflight in `tools/m2_preflight.py`. The [M1 storage decision](docs/m1-storage-decision.md) and MLX 0.32.3 baseline are unchanged. M3 must not begin.
 
 ## Initial design
 
