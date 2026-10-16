@@ -1,10 +1,10 @@
 # GLM-EXLR8
 
-Planning a focused **GLM-5.3 + EXLR8 `up1` runtime for Apple Silicon**, initially the M3 Ultra with 512 GB unified memory.
+Building toward a focused **GLM-5.3 + EXLR8 `up1` runtime for Apple Silicon**, initially the M3 Ultra with 512 GB unified memory.
 
 The primary goal is reliable resident, growing agent sessions—not another general-purpose MLX-LM fork. The first major success is ordinary generation with stable cache ownership, no full-cache relocation, bounded scratch/graph lifetimes, and no progressive stall or abandoned-memory growth.
 
-**Status: architecture and planning only. No runtime implementation exists.** The checkpoint download is independent of this phase.
+**Status: bounded M1 storage experiment complete; no runtime implementation exists.** Private evaluated MLX tails passed; MLX 0.32.3 is selected. See the [M1 decision and reproduction instructions](docs/m1-storage-decision.md). M2 has not started.
 
 ## Initial design
 
@@ -23,4 +23,4 @@ The primary goal is reliable resident, growing agent sessions—not another gene
 - [Bounded validation strategy](docs/validation.md)
 - [Risk register](docs/risks.md)
 
-The next implementation task is a **model-free fixed-block MLX storage/lifetime experiment**, as specified in the development plan. It must establish whether private evaluated MLX pages can be updated without replacing sealed storage, before choosing a native append boundary.
+The model-free experiment lives in `experiments/`, separate from future production code. It found stable sealed buffers, bounded active-tail COW when aliases are retained, and release after reference retirement plus completion. A native storage boundary is deferred. Subsequent model work still requires the M2 admission gates in the development plan.

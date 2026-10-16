@@ -12,6 +12,8 @@ Each milestone has one outcome gate and a small comparison/measurement record. N
 | **6. MTP, optional** | Add predictor and verification state without compromising ordinary sessions. | Forced accept/reject/partial accept, EOS/cancel, and continuation use explicit private tails and commit; target ordinary baseline still works; adopted paths do not silently re-quantize weights. | M4; stable cache contracts, useful M5 paths. | Multiplied pending states, reference iteration-index sharing, hidden four-row MXFP4 dispatch. |
 | **7. OpenAI-compatible local serving and packaging** | Expose the stable runtime with minimal request admission, streaming and shutdown semantics. | Local client can generate/cancel/continue within declared limits; disconnect does not orphan state; licenses/resources included. | M4 core; MTP remains optional, not a server dependency. | Lookahead/disconnect ownership, broad compatibility distracting from core. |
 
+**M1 storage gate completed:** the requested bounded experiment selected private evaluated MLX tails, transaction-bounded active-tail COW when aliased, and MLX/Metal 0.32.3 with rebuilt nanobind 3.1.0 extensions. See [measurements, scope, and reproduction](m1-storage-decision.md). No production operator adoption or M2 runtime work was done; the historical broader operator/admission requirements below are not claimed complete by the storage experiment.
+
 M2 may use the existing contiguous cache **only as a short diagnostic scaffold**, with a strict context limit and explicit deletion path. It cannot graduate to the usable runtime. If M1 requires native storage work, do it as part of M3, not as an excuse to adopt an unsafe growing cache. Existing exact weight kernels can be reused from M1; “native performance later” does not mean reimplementing the codec in slow Python.
 
 M5 contains independent workstreams: q8 is not a prerequisite for exact native speedups, nor vice versa. M7 may follow M5 while M6 remains deferred; there is no feature-count gate.
@@ -37,7 +39,7 @@ Small exact acceleration may be promoted later only with a concrete profile and 
 
 ## Dependencies and blockers
 
-**No blocker to planning or M1; M1 is ready to begin when implementation is authorized.** The checkpoint download is still in progress. M1 remains model-free and must not wait for it.
+**The requested model-free M1 storage gate passed; M2 may begin when authorized.** Checkpoint download/completeness was not inspected in M1 and is not a storage-experiment dependency. M2 must apply the entry gate below; this note does not assert that files are ready.
 
 **M2 entry gate:** confirm the M1-selected MLX build and native availability/fallback decisions. Inventory the completed files required by the main up1 profile: manifest, K4 expert payloads and index/side data for layers 3–77, dense/vocabulary records, and tokenizer/config/template/generation metadata. Validate manifest name/selection, required file completeness, published sizes/hashes, and consistent weight-set identity against the publisher's set-ID definition. The inspected metadata names set ID `2011c0cedde962d19fc43e74c1d409279e398d40d27a6fdb4bcb7b49ea2ea6fb`; do not treat that copied string or directory name as validation. Reject incomplete or mixed sets before loading; a deliberately different publisher revision requires an explicit identity update. Alternate K2/K3 payloads and optional MTP files are not prerequisites for main-model runs; use published per-file checks for the selected subset without claiming validation of undownloaded files.
 
