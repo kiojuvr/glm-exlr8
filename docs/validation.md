@@ -22,7 +22,11 @@ Use short teacher-forced logits/hidden checkpoints first. Then fixed-seed ordina
 
 Against a small floating contiguous reference, compare block append, absolute position lookup, causal lengths, gather order, sparse output and consumed-token frontier. Include page crossing, full/shared layers, last partial page, and lengths below/at/above K. Exercise prefill chunking versus one-shot short input, suffix continuation, capacity rejection before writes, EOS/length stop, cancellation, and close/recreate.
 
-Confirm sealed blocks are not replaced during growth. Instrument physical allocations where possible; otherwise allocation peaks/copy traces must support the claim, and stable Python handles alone must not be reported as proof. Deliberately retain a view/output in the model-free experiment to expose copy-on-write and graph-lifetime behavior.
+Confirm sealed blocks are not replaced during growth. Instrument physical allocations where possible; otherwise allocation peaks/copy traces must support the claim, and stable Python handles alone must not be reported as proof. In M1 compare output-only evaluation, all-state synchronous evaluation, and ds41f-style all-state/output `async_eval`, input/control `eval`, then stream synchronization before reuse. Repeat with private tails and intentionally retained lazy outputs/views, then drop retained references to check recovery. Correct values alone do not pass this experiment: identify the completion/release boundary that permits bounded backing/scratch reuse, and distinguish retained aliases from pending GPU work.
+
+Use the same bounded storage experiment plus small exact-weight/native score/sparse-MLA smoke comparisons to select between candidate MLX 0.32.2 and 0.32.3 builds in M1; rebuild extensions for each candidate rather than mixing binaries. Record the chosen baseline and any disabled optional native routes in one short decision note, confirmed at M2 entry. This checks changed storage/native interfaces, not upstream model semantics.
+
+Before M2 loading, validate the completed required up1 subset's manifest selection, file completeness/sizes/hashes and publisher-defined set identity as described in the development plan. Match loaded representations to that inventory at exit; the in-progress download is no dependency for M1.
 
 Once q8 is introduced, compare exact same weights/tokens against floating pages: latent reconstruction error, layer/logit effects and selected attention output. Establish a short calibration tolerance before promotion; do not invent universal error thresholds now. Separate loss from quantization from errors in page/scales/bias association. A short quality match does not exempt q8 from a long-context continuation run.
 
@@ -45,7 +49,7 @@ A slow scan over a longer indexer cache is not a deadlock. Use scalar progress m
 
 ### 5. Local promotion checks
 
-For a native or compressed path, rerun the corresponding operator comparison and the affected lifecycle/long-context segment. Assert native dtype/layout/symbol constraints before dispatch. Keep a stable ordinary fallback; unsupported paths must not secretly allocate a full floating cache. MTP later gets a small separate acceptance/rejection/cancellation ladder because it changes transaction semantics.
+For a native or compressed path, rerun the corresponding operator comparison and the affected lifecycle/long-context segment. Assert native dtype/layout/symbol constraints before dispatch, including the sparse-MLA fast path's selected-row dimension `K >= 16` and multi-query requirement. Smaller selections use a bounded MLX fallback, not an unsupported native call. Keep a stable ordinary fallback; unsupported paths must not secretly allocate a full floating cache. MTP later gets a small separate acceptance/rejection/cancellation ladder because it changes transaction semantics.
 
 ## What is not continuously re-proven
 
